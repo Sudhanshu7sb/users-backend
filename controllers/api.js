@@ -6,7 +6,6 @@ var auth = require("../middlewares/auth");
 
 //register user
 exports.signup = async (req, res, next) => {
-  console.log("in");
     try {
       var user = await User.create(req.body.user, user);
       var token = await auth.generateToken(user);
@@ -14,7 +13,8 @@ exports.signup = async (req, res, next) => {
       res.status(201).json({
         email: user.email,
         id: user.id,
-        username: user.username,
+        phoneNumber : user.phoneNumber,
+        dob:user.dob,
       });
     } catch (error) {
       next(error);
@@ -61,7 +61,6 @@ exports.signup = async (req, res, next) => {
   // get current user
   
   exports.currentUser = async (req, res, next) => {
-      console.log(req.body.user._id,"we are user");
       
     try {
       var user = await User.findById(req.params.id, "-password ");
